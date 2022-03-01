@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une question</title>
+</head>
+<body>
+    <h1> Add question to database </h1>
+    {% if submitted %}
+        <p> Your question has been submitted succesfully </p>
+    {% else %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" value="submit" class="btn-add"> Add </button>
+        </form>
+    {% endif %}
+    <button type="button" class="btn-return"> <a href="{% url 'myCrud:index' %}"> Return </a> </button>
+</body>
+</html>

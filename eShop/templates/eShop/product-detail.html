@@ -1,0 +1,52 @@
+{% extends 'eShop/base.html' %} 
+{% block content %}
+<div class="super_container">
+    <div class="single_product">
+        <div class="container-fluid" style=" background-color: #fff; padding: 11px;">
+            <div class="row">
+                <div class="col-lg-5 order-lg-3 order-3">
+                    <div class="image_selected"><img src="{{ pokemon.picture.url}}" alt="{{ pokemon.picture }}"></div>
+                </div>
+                <div class="col-lg-6 order-3">
+                    <div class="product_description">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">Pokemon list</a></li>
+                                <li class="breadcrumb-item active"> {{pokemon.name}} </li>
+                            </ol>
+                        </nav>
+                        <div class="product_name">{{pokemon.name}} - {{pokemon.surname}}</div>
+                        <div> 
+                            <p class="product_price">€ {{pokemon.price}}</p>
+                        <div>
+                        <hr class="singleline">
+                        <div> 
+                            <p class="product_info">Gender : {{ pokemon.read_gender }}<p>  
+                            <p class="product_info"> Shiny : {% if pokemon.shiny %} Yes {% else %} No {% endif %} <p>
+                            <p class="product_info"> Level : {{ pokemon.level }} <p></p>
+                        <div>
+                        <hr class="singleline">
+                        <div class="order_info d-flex flex-row">
+                            {% if pokemon.quantity %}
+                            <form action="{% url 'eshop:product_detail' pokemon.id %}" method="POST">
+                                {% csrf_token %}
+                                    {{ form.as_p }}
+                                    {% if errorMsg %} 
+                                        <div class="alert alert-danger" role="alert">
+                                            There isn't enough stock to buy. Quantity in stock : {{ pokemon.quantity }}
+                                        </div>
+                                    {% endif %}
+                                    <button type="submit" class="btn btn-success shop-button"> Buy Now </button>
+                                </form>
+                            {% else %}
+                                <p> OUT OF STOCK </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

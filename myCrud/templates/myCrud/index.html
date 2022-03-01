@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> my Crud index </title>
+</head>
+<body>
+    <h1> Welcome to my Crud </h1>
+
+    {% if latest_question_list %}
+        <table>
+            <thead>
+                <tr> 
+                    <th> Questions  </th>
+                    <th> Actions </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in latest_question_list %}
+                <tr>
+                    <td><a href="{% url 'myCrud:detail' question.id %}">{{ question.text }}</a></td>
+                    <td>
+                        <button type="button" class="btn-delete"> <a href="{% url 'myCrud:delete' question.id %}"> Delete </a> </button>
+                        <a href="{% url 'myCrud:update' question.id %}"> Update </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No questions are available.</p>
+    {% endif %}
+    <button> <a href="{% url 'myCrud:create' %}"> Add a question </a></button>
+</body>
+</html>
