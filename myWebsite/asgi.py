@@ -14,7 +14,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 import eShop.routing
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tic_tac_toe.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myWebsite.settings')
 
 # application = get_asgi_application()
 application = ProtocolTypeRouter({

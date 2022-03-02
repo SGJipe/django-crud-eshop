@@ -1,8 +1,17 @@
-var roomCode = document.getElementById("chat_board").getAttribute("data-room-code");
 // var char_choice = document.getElementById("game_board").getAttribute("char_choice");
 
-var connectionString = 'ws://' + window.location.host + '/ws/eshop/chat/' + roomCode + '/';
+var connectionString = 'ws://' + window.location.host + '/ws/eshop/chat/';
 var gameSocket = new WebSocket(connectionString);
+
+const message_list = document.querySelector('.chat-history');
+const form_submit = document.querySelector('.form-message');
+const input_message = document.querySelector('.input_message');
+
+form_submit.addEventListener('submit', function(e){
+    e.preventDefault();
+    const message = input_message.value;
+    gameSocket.send(JSON.stringify({message}));
+});
 
 function connect() {
     gameSocket.onopen = function open() {
@@ -25,27 +34,10 @@ function connect() {
         // On getting the message from the server
         // Do the appropriate steps on each event.
         let data = JSON.parse(e.data);
+        console.log(data);
         data = data["payload"];
         let message = data['message'];
-        let event = data["event"];
-        switch (event) {
-            case "START":
-                reset();
-                break;
-            case "END":
-                alert(message);
-                reset();
-                break;
-            // case "MOVE":
-            //     if(message["player"] != char_choice){
-            //         make_move(message["index"], message["player"])
-            //         myturn = true;
-            //         document.getElementById("alert_move").style.display = 'inline';       
-            //     }
-            //     break;
-            default:
-                console.log("No event")
-        }
+        message_list.innerHTML += `<div class="message my-message"> ${message} </div>`
     };
 
     if (gameSocket.readyState == WebSocket.OPEN) {

@@ -4,8 +4,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 class eShopConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         # self.room_name = self.scope['url_route']['kwargs']
-        self.room_name = self.scope['url_route']['kwargs']['room_code']
-        self.room_group_name = 'room_%s' % self.room_name
+        self.room_group_name = "django-chat"
 
         # Join room group
         await self.channel_layer.group_add(
@@ -28,31 +27,13 @@ class eShopConsumer(AsyncJsonWebsocketConsumer):
         Get the event and send the appropriate event
         """
         response = json.loads(text_data)
-        event = response.get("event", None)
         message = response.get("message", None)
-        if event == 'MOVE':
-            # Send message to room group
-            await self.channel_layer.group_send(self.room_group_name, {
-                'type': 'send_message',
-                'message': message,
-                "event": "MOVE"
-            })
 
-        if event == 'START':
-            # Send message to room group
-            await self.channel_layer.group_send(self.room_group_name, {
-                'type': 'send_message',
-                'message': message,
-                'event': "START"
-            })
-
-        if event == 'END':
-            # Send message to room group
-            await self.channel_layer.group_send(self.room_group_name, {
-                'type': 'send_message',
-                'message': message,
-                'event': "END"
-            })
+        # Send message to room group
+        await self.channel_layer.group_send(self.room_group_name, {
+            'type': 'send_message',
+            'message': message,
+        })
 
     async def send_message(self, res):
         """ Receive message from room group """

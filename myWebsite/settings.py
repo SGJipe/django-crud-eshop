@@ -131,7 +131,7 @@ STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'boot'),
 ]
 
-# WSGI_APPLICATION = 'tic_tac_toe.wsgi.application'
+WSGI_APPLICATION = 'myWebsite.wsgi.application'
 # Channels
 ASGI_APPLICATION = "myWebsite.asgi.application"
 
